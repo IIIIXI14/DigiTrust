@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraud Detection</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <nav class="navbar">
+            <div class="container">
+                <span class="navbar-brand">Fraud Check</span>
+            </div>
+        </nav>
+
+        <div class="container main-content">
+            <div class="card">
+                <div class="card-body">
+                    <form id="transactionForm" class="row g-3">
+                        <div class="col-12">
+                            <label for="amount" class="form-label">Amount (₹)</label>
+                            <input type="number" class="form-control" id="amount" required min="0" placeholder="Enter amount">
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="income" class="form-label">Income Level</label>
+                            <select class="form-select" id="income" required>
+                                <option value="">Select Income</option>
+                                <option value="low">Low (≤₹25k)</option>
+                                <option value="middle">Middle (₹25k-50k)</option>
+                                <option value="upper">Upper (>₹50k)</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="time" class="form-label">Time</label>
+                            <input type="time" class="form-control" id="time" required>
+                            <div id="timeDisplay" class="form-text"></div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="location" class="form-label">Location</label>
+                            <select class="form-select" id="location" required>
+                                <option value="">Select Location</option>
+                                <option value="mumbai">Mumbai</option>
+                                <option value="delhi">Delhi</option>
+                                <option value="bangalore">Bangalore</option>
+                                <option value="hyderabad">Hyderabad</option>
+                                <option value="chennai">Chennai</option>
+                                <option value="kolkata">Kolkata</option>
+                                <option value="pune">Pune</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="merchantType" class="form-label">Transaction Type</label>
+                            <select class="form-select" id="merchantType" multiple required>
+                                <optgroup label="Essential">
+                                    <option value="groceries">Groceries & Food</option>
+                                    <option value="utilities">Utilities & Bills</option>
+                                    <option value="medical">Healthcare & Medical</option>
+                                    <option value="education">Education & Training</option>
+                                    <option value="rent">Rent & Housing</option>
+                                </optgroup>
+                                <optgroup label="Shopping">
+                                    <option value="electronics">Electronics & Gadgets</option>
+                                    <option value="fashion">Fashion & Clothing</option>
+                                    <option value="jewelry">Jewelry & Luxury</option>
+                                    <option value="furniture">Home & Furniture</option>
+                                    <option value="beauty">Beauty & Personal Care</option>
+                                </optgroup>
+                                <optgroup label="Services">
+                                    <option value="travel">Travel & Transportation</option>
+                                    <option value="entertainment">Entertainment & Media</option>
+                                    <option value="dining">Restaurants & Dining</option>
+                                    <option value="salon">Salon & Spa</option>
+                                    <option value="repair">Repairs & Maintenance</option>
+                                </optgroup>
+                                <optgroup label="Financial">
+                                    <option value="investment">Investments & Trading</option>
+                                    <option value="insurance">Insurance & Protection</option>
+                                    <option value="transfer">Money Transfer</option>
+                                    <option value="loan">Loan Payment</option>
+                                    <option value="crypto">Cryptocurrency</option>
+                                </optgroup>
+                                <optgroup label="Business">
+                                    <option value="b2b">B2B Services</option>
+                                    <option value="wholesale">Wholesale Purchase</option>
+                                    <option value="software">Software & Digital</option>
+                                    <option value="consulting">Consulting Services</option>
+                                    <option value="marketing">Marketing & Advertising</option>
+                                </optgroup>
+                            </select>
+                            <div class="form-text">Hold Ctrl/Cmd to select multiple types</div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="transactionMode" class="form-label">Payment Mode</label>
+                            <select class="form-select" id="transactionMode" required>
+                                <option value="">Select Payment</option>
+                                <option value="upi">UPI</option>
+                                <option value="debit">Debit Card</option>
+                                <option value="credit">Credit Card</option>
+                                <option value="netbanking">Net Banking</option>
+                                <option value="wallet">Digital Wallet</option>
+                            </select>
+                        </div>
+                    </form>
+
+                    <div class="button-group">
+                        <button id="trainButton" class="btn btn-primary">Train Model</button>
+                        <button id="checkButton" class="btn btn-success">Check Risk</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="result" class="alert" style="display: none;"></div>
+            
+            <div class="risk-display">
+                <div id="confidenceChart" class="chart-box"></div>
+                <div id="trainingStatus" class="status-box" style="display: none;">
+                    Training Model...
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="fraudDetection.js"></script>
+</body>
+</html>

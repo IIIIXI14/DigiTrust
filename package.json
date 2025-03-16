@@ -1,0 +1,17 @@
+{
+  "name": "aiml-part",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "start": "cd frontend && npm run start"
+  },
+  "dependencies": {
+    "@radix-ui/react-label": "^2.1.2",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.5.0",
+    "tailwind-merge": "^3.0.2",
+    "tailwindcss-animate": "^1.0.7"
+  }
+}
